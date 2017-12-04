@@ -1,0 +1,100 @@
+body{
+
+    font-family: 'Share Tech Mono';    
+    /* 
+    musimy użyc czcionki monospaced, czyli takiej 
+    w ktorej kazdy znak ma rowna szerokosc. 
+    inne czcionki beda sie trzesly podczas animacji czasu 
+    */
+}
+
+#container{
+
+    max-width: 450px;
+    min-width: 320px;
+    margin: 0 auto;
+    background-color: #131313;
+    text-align: center;
+    padding: 10px;
+    border-radius: 1px;
+}
+
+.stopwatch{
+  
+    color: cyan;
+    font-size: 4em;
+    margin-bottom: 10px;
+    letter-spacing: .1em;
+}
+
+
+.controls{
+
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 100px;
+    
+}
+
+.button {
+
+    max-width: 100px;
+    font-size: 1em;
+    text-transform: uppercase;
+    color:lightsteelblue;
+    text-decoration: none;
+    flex: 1 0 auto;
+    border: 1px solid;
+    line-height: 1.4em;
+    transition: .15s;
+}
+
+
+.button:first-child:hover{
+
+    color: rgb(159, 255, 6);
+}
+
+
+.button:nth-of-type(2):hover{
+
+    color: yellow;
+}
+
+.button:nth-of-type(3):hover{
+    
+        color: whitesmoke;
+}
+
+.button:last-child:hover{
+    
+        color: orangered; 
+}
+
+
+#listReset{
+
+    font-size: .8em;
+    padding: .1em;
+}
+
+
+#resultsList{
+
+    list-style-type: decimal-leading-zero;
+    text-align: center;
+    width: 20%;
+    margin: 0 auto; 
+    margin-bottom: 30px;
+}
+
+.resultsListItem{
+
+    color: whitesmoke;
+    padding: 5px 0;
+}
+
+.resultsListItem:nth-child(even){
+    
+    color: rgb(202, 199, 255);
+}
