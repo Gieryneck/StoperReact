@@ -9,16 +9,16 @@ class Stopwatch extends React.Component {
                 <div className="stopwatch">{this.state.display}</div>
 
                 <nav className="controls">
-                    <button className="button" id="start" onClick={this.start}>Start</button>
-                    <button className="button" id="stop" onClick={this.stop}>Stop</button>
-                    <button className="button" id="save" onClick={this.save}>Save</button>
-                    <button className="button" id="reset" onClick={this.reset}>Reset</button>
+                    <button className="button"  onClick={this.start}>Start</button>
+                    <button className="button"  onClick={this.stop}>Stop</button>
+                    <button className="button"  onClick={this.save}>Save</button>
+                    <button className="button"  onClick={this.reset}>Reset</button>
                 </nav>
 
                 
-                {/* <Results results={this.state.results}/> */}
+                <Results results={this.formatResults(this.state.results)}/>
                 
-                <button className="button" id="listReset">Reset Results List</button>
+                <button className="button listReset" onClick={this.resetList}>Reset Results List</button>
 
             </div>
         );
@@ -72,6 +72,14 @@ class Stopwatch extends React.Component {
 
             return result;
         }
+    }
+
+    formatResults = (results) => {
+        var self = this;
+        return results.map(function(result) {
+
+            return self.format(result)        
+        })
     }
 
 
@@ -138,44 +146,47 @@ class Stopwatch extends React.Component {
 
     save = () => {
         
-        if(!(this.times.miliseconds === 0 & this.times.seconds === 0 & this.times.minutes === 0)) {
+        if(!(this.times.miliseconds === 0 && this.times.seconds === 0 && this.times.minutes === 0)) {
 
-            /* this.setState((prevState) => {
+            
+            let newResults = this.state.results;
 
-                return {results: [...prevState.results, this.times]}
-                   //console.log(this.state.results);
-            }, console.log(this.state.results));
- */
+           // newResults.push(JSON.parse(JSON.stringify(this.times))); 
+
+            /* musimy stworzyc kopie wartosci this.times niezalezna od this.times, bo do tablicy przekazujemy
+            tylko adres do zmiennej this.times mozna to zrobic tym czyms powyzej robiac z times
+            stringa a potem znow obiekt. w ten sposob utracimy powiazanie z times, ale jest to brzydka 
+            metoda. lepiej stworzyc nowy obiekt jak ponizej:  */
+
+             newResults.push({
+                minutes: this.times.minutes,
+                seconds: this.times.seconds,
+                miliseconds: this.times.miliseconds
+            }); 
+
             this.setState({
 
-                results: 
-                    // rest operator (...) expands out to:
-                    [...this.state.results, // x:0, y:0,
-                    ...[this.times]] // overwrites old y
-                
-                        //https://stackoverflow.com/questions/24898012/react-js-setstate-overwriting-not-merging
-                        //const table = [...table1, ...table2, ...table3];
-                        //const newNames = [...names, 'Tadeusz'];
-                        //https://reactjs.org/docs/state-and-lifecycle.html   merging
+                results: newResults
+                   
             }, console.log(this.state.results))
         }
   
-    }      
+    } 
+    
+    resetList = () => {
+
+        this.setState({results: []});
+    }
 
 }
 
-/* function Results(props) {
+function Results(props) {
     
-
-    props.results.forEach((result) => {
-        
-                    <li>    {result}</li>
-    })   
-    //console.log(props.results);
-   var results = props.results.map((result) => {
+   var results = props.results.map((result, key) => {
 
        return ( 
-           <li>{result}</li>
+
+           <li key={key.toString()}>{result}</li> // nadajemy key bo react chce wiedziec ktory li jest ktory
        );
     }); 
 
@@ -185,7 +196,7 @@ class Stopwatch extends React.Component {
             {results}
         </ul>
     )
-} */
+}
 
 
 

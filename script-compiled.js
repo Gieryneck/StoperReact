@@ -2,8 +2,6 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -30,28 +28,29 @@ var Stopwatch = function (_React$Component) {
                     { className: "controls" },
                     React.createElement(
                         "button",
-                        { className: "button", id: "start", onClick: this.start },
+                        { className: "button", onClick: this.start },
                         "Start"
                     ),
                     React.createElement(
                         "button",
-                        { className: "button", id: "stop", onClick: this.stop },
+                        { className: "button", onClick: this.stop },
                         "Stop"
                     ),
                     React.createElement(
                         "button",
-                        { className: "button", id: "save", onClick: this.save },
+                        { className: "button", onClick: this.save },
                         "Save"
                     ),
                     React.createElement(
                         "button",
-                        { className: "button", id: "reset", onClick: this.reset },
+                        { className: "button", onClick: this.reset },
                         "Reset"
                     )
                 ),
+                React.createElement(Results, { results: this.formatResults(this.state.results) }),
                 React.createElement(
                     "button",
-                    { className: "button", id: "listReset" },
+                    { className: "button listReset", onClick: this.resetList },
                     "Reset Results List"
                 )
             );
@@ -62,6 +61,14 @@ var Stopwatch = function (_React$Component) {
         _classCallCheck(this, Stopwatch);
 
         var _this = _possibleConstructorReturn(this, (Stopwatch.__proto__ || Object.getPrototypeOf(Stopwatch)).call(this, props));
+
+        _this.formatResults = function (results) {
+            var self = _this;
+            return results.map(function (result) {
+
+                return self.format(result);
+            });
+        };
 
         _this.start = function () {
             // do obslugi przez babel arrow fctions musimy zainstalowac "Stage 0 preset" i dodac odpowiedni wpis do .babelrc
@@ -94,25 +101,34 @@ var Stopwatch = function (_React$Component) {
 
         _this.save = function () {
 
-            if (!(_this.times.miliseconds === 0 & _this.times.seconds === 0 & _this.times.minutes === 0)) {
+            if (!(_this.times.miliseconds === 0 && _this.times.seconds === 0 && _this.times.minutes === 0)) {
 
-                /* this.setState((prevState) => {
-                      return {results: [...prevState.results, this.times]}
-                       //console.log(this.state.results);
-                }, console.log(this.state.results));
-                */
+                var newResults = _this.state.results;
+
+                // newResults.push(JSON.parse(JSON.stringify(this.times))); 
+
+                /* musimy stworzyc kopie wartosci this.times niezalezna od this.times, bo do tablicy przekazujemy
+                tylko adres do zmiennej this.times mozna to zrobic tym czyms powyzej robiac z times
+                stringa a potem znow obiekt. w ten sposob utracimy powiazanie z times, ale jest to brzydka 
+                metoda. lepiej stworzyc nowy obiekt jak ponizej:  */
+
+                newResults.push({
+                    minutes: _this.times.minutes,
+                    seconds: _this.times.seconds,
+                    miliseconds: _this.times.miliseconds
+                });
+
                 _this.setState({
 
-                    results:
-                    // rest operator (...) expands out to:
-                    [].concat(_toConsumableArray(_this.state.results), [_this.times]) // overwrites old y
+                    results: newResults
 
-                    //https://stackoverflow.com/questions/24898012/react-js-setstate-overwriting-not-merging
-                    //const table = [...table1, ...table2, ...table3];
-                    //const newNames = [...names, 'Tadeusz'];
-                    //https://reactjs.org/docs/state-and-lifecycle.html   merging
                 }, console.log(_this.state.results));
             }
+        };
+
+        _this.resetList = function () {
+
+            _this.setState({ results: [] });
         };
 
         _this.state = {
@@ -196,28 +212,24 @@ var Stopwatch = function (_React$Component) {
     return Stopwatch;
 }(React.Component);
 
-/* function Results(props) {
-    
+function Results(props) {
 
-    props.results.forEach((result) => {
-        
-                    <li>    {result}</li>
-    })   
-    //console.log(props.results);
-   var results = props.results.map((result) => {
+    var results = props.results.map(function (result, key) {
 
-       return ( 
-           <li>{result}</li>
-       );
-    }); 
+        return React.createElement(
+            "li",
+            { key: key.toString() },
+            result
+        ) // nadajemy key bo react chce wiedziec ktory li jest ktory
+        ;
+    });
 
-    return(
-
-        <ul>
-            {results}
-        </ul>
-    )
-} */
+    return React.createElement(
+        "ul",
+        null,
+        results
+    );
+}
 
 var element = React.createElement(Stopwatch);
 
