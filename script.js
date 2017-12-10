@@ -4,15 +4,15 @@ class Stopwatch extends React.Component {
 
         return (
 
-            <div id="container">
+            <div className="container">
 
                 <div className="stopwatch">{this.state.display}</div>
 
                 <nav className="controls">
-                    <button className="button"  onClick={this.start}>Start</button>
-                    <button className="button"  onClick={this.stop}>Stop</button>
-                    <button className="button"  onClick={this.save}>Save</button>
-                    <button className="button"  onClick={this.reset}>Reset</button>
+                    <button className="button" onClick={this.start}>Start</button>
+                    <button className="button" onClick={this.stop}>Stop</button>
+                    <button className="button" onClick={this.save}>Save</button>
+                    <button className="button" onClick={this.reset}>Reset</button>
                 </nav>
 
                 
@@ -158,6 +158,8 @@ class Stopwatch extends React.Component {
             stringa a potem znow obiekt. w ten sposob utracimy powiazanie z times, ale jest to brzydka 
             metoda. lepiej stworzyc nowy obiekt jak ponizej:  */
 
+            
+
              newResults.push({
                 minutes: this.times.minutes,
                 seconds: this.times.seconds,
@@ -182,19 +184,23 @@ class Stopwatch extends React.Component {
 
 function Results(props) {
     
-   var results = props.results.map((result, key) => {
+    var results = props.results.map((result, key) => {
 
        return ( 
 
-           <li key={key.toString()}>{result}</li> // nadajemy key bo react chce wiedziec ktory li jest ktory
+           <li key={key.toString()} className="resultsListItem">{result}</li> // nadajemy key bo react chce wiedziec ktory li jest ktory
        );
     }); 
 
+    if (results.length===0) return null; // nie chcemy rendera jesli nie ma zadnych <li>, ReactOrg w takich sytuacjach każe zwracac 'null'
+
     return(
 
-        <ul>
+        <ul className="resultsList">
             {results}
         </ul>
+
+        // React jest taki madry ze nie re-renderuje calej listy a tylko dokleja nowy element <li>, sprawdza ile musi dorenderowac
     )
 }
 

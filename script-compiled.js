@@ -17,7 +17,7 @@ var Stopwatch = function (_React$Component) {
 
             return React.createElement(
                 "div",
-                { id: "container" },
+                { className: "container" },
                 React.createElement(
                     "div",
                     { className: "stopwatch" },
@@ -218,17 +218,22 @@ function Results(props) {
 
         return React.createElement(
             "li",
-            { key: key.toString() },
+            { key: key.toString(), className: "resultsListItem" },
             result
         ) // nadajemy key bo react chce wiedziec ktory li jest ktory
         ;
     });
 
+    if (results.length === 0) return null; // nie chcemy rendera jesli nie ma zadnych <li>, ReactOrg w takich sytuacjach każe zwracac 'null'
+
     return React.createElement(
         "ul",
-        null,
+        { className: "resultsList" },
         results
-    );
+    )
+
+    // React jest taki madry ze nie re-renderuje calej listy a tylko dokleja nowy element <li>, sprawdza ile musi dorenderowac
+    ;
 }
 
 var element = React.createElement(Stopwatch);

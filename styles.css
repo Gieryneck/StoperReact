@@ -1,16 +1,8 @@
-body{
 
-    font-family: 'Share Tech Mono'; 
-    color: yellowgreen;   
-    /* 
-    musimy użyc czcionki monospaced, czyli takiej 
-    w ktorej kazdy znak ma rowna szerokosc. 
-    inne czcionki beda sie trzesly podczas animacji czasu 
-    */
-}
 
-#container{
-
+.container{
+    
+    font-family: 'Share Tech Mono';
     max-width: 450px;
     min-width: 320px;
     margin: 0 auto;
@@ -33,12 +25,12 @@ body{
 
     display: flex;
     justify-content: space-around;
-    margin-bottom: 100px;
-    
+    margin-bottom: 100px;   
 }
 
 .button {
 
+    background-color: #131313;
     max-width: 100px;
     font-size: 1em;
     text-transform: uppercase;
@@ -48,6 +40,12 @@ body{
     border: 1px solid;
     line-height: 1.4em;
     transition: .15s;
+    font-family: 'Share Tech Mono';
+}
+
+.button:focus{
+
+    outline: none;
 }
 
 
@@ -75,12 +73,13 @@ body{
 
 .listReset{
 
+    max-width: 160px;
     font-size: .8em;
-    padding: .1em;
+    padding: .2em;
 }
 
 
-#resultsList{
+.resultsList{
 
     list-style-type: decimal-leading-zero;
     text-align: center;
